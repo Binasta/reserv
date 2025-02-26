@@ -1,8 +1,13 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 $host = 'localhost';
-$dbname = 'reservation_db';
-$user = 'root'; // Modifier si nécessaire
-$password = ''; // Modifier si nécessaire
+$dbname = 'reservation_system';
+$user = 'admin'; // Modifier si nécessaire
+$password = 'admin'; // Modifier si nécessaire
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
