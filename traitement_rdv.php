@@ -7,29 +7,32 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!isset($_POST['creneau_id'])) {
+    if (!isset($_POST['creneaux'])) {
         die("Erreur : Aucun créneau sélectionné.");
     }
 
     $utilisateur_id = $_SESSION['user_id'];
-    $creneau_id = $_POST['creneau_id'];
+    $creneaux_id = (int) $_POST['creneaux']; // Forcer en entier
+
+    $stmt = $pdo->prepare("INSERT INTO rendezvous (utilisateur_id, creneau_id) VALUES (?, ?)");
+    $stmt->execute([$utilisateur_id, $creneaux_id]);
 
     // Vérifier si le créneau existe et est disponible
     $stmt = $pdo->prepare("SELECT * FROM creneaux WHERE id = ? AND disponible = 1");
-    $stmt->execute([$creneau_id]);
-    $creneau = $stmt->fetch();
+    $stmt->execute([$creneaux_id]);
+    $creneaux = $stmt->fetch();
 
-    if (!$creneau) {
+    if (!$creneaux) {
         die("Ce créneau n'est plus disponible.");
     }
 
     // Insérer le rendez-vous
     $stmt = $pdo->prepare("INSERT INTO rendezvous (utilisateur_id, creneau_id) VALUES (?, ?)");
-    $stmt->execute([$utilisateur_id, $creneau_id]);
+    $stmt->execute([$utilisateur_id, $creneaux_id]);
 
     // Mettre à jour le créneau pour qu'il ne soit plus disponible
     $stmt = $pdo->prepare("UPDATE creneaux SET disponible = 0 WHERE id = ?");
-    $stmt->execute([$creneau_id]);
+    $stmt->execute([$creneaux_id]);
 
     echo "Rendez-vous pris avec succès !";
 }

@@ -22,8 +22,8 @@ if (!isset($_SESSION['user_id'])) {
             <label for="date">Choisir une date :</label>
             <input type="date" id="date" name="date" class="form-control" required><br>
             
-            <label for="creneau">Choisir un créneau :</label>
-            <select id="creneau" name="creneau" class="form-control" required>
+            <label for="creneaux">Choisir un créneau :</label>
+            <select id="creneaux" name="creneaux" class="form-control" required>
                 <option value="">Sélectionnez une date d'abord</option>
             </select><br>
             
@@ -40,7 +40,7 @@ if (!isset($_SESSION['user_id'])) {
                     type: 'POST',
                     data: { date: selectedDate },
                     success: function(data) {
-                        $('#creneau').html(data);
+                        $('#creneaux').html(data);
                     }
                 });
             });
