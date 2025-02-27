@@ -22,8 +22,8 @@ $user = $stmt->fetch();
     <div class="container mt-5">
         <h2>Bienvenue, <?= htmlspecialchars($user['nom']) ?>!</h2>
         <p>Email : <?= htmlspecialchars($user['email']) ?></p>
-        <p><a href="mes_rendezvous.php" class="btn btn-primary">Mes Rendez-vous</a></p>
-        <p><a href="calendrier.php" class="btn btn-success">Prendre un rendez-vous</a></p>
+        <p><a href="prendre_rdv.php" class="btn btn-primary">Mes Rendez-vous</a></p>
+        <p><a href="prendre_rdv.php" class="btn btn-success">Prendre un rendez-vous</a></p>
         <p><a href="supprimer_compte.php" class="btn btn-danger">Supprimer mon compte</a></p>
         <p><a href="logout.php" class="btn btn-secondary">Déconnexion</a></p>
     </div>

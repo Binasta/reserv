@@ -1,27 +1,50 @@
 <?php
 include 'config.php';
 session_start();
-
 if (!isset($_SESSION['user_id'])) {
-    echo "Veuillez vous connecter.";
+    header("Location: login_register.php");
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $date_rdv = $_POST['date_rdv'];
-    $heure_rdv = $_POST['heure_rdv'];
-    $user_id = $_SESSION['user_id'];
-
-    // Vérifier la disponibilité du créneau
-    $stmt = $pdo->prepare("SELECT id FROM rendezvous WHERE date_rdv = ? AND heure_rdv = ?");
-    $stmt->execute([$date_rdv, $heure_rdv]);
-
-    if ($stmt->rowCount() > 0) {
-        echo "Ce créneau est déjà pris.";
-    } else {
-        $stmt = $pdo->prepare("INSERT INTO rendezvous (utilisateur_id, date_rdv, heure_rdv) VALUES (?, ?, ?)");
-        $stmt->execute([$user_id, $date_rdv, $heure_rdv]);
-        echo "Rendez-vous réservé avec succès !";
-    }
-}
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Prendre un Rendez-vous</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Prendre un Rendez-vous</h2>
+        <form action="traitement_rdv.php" method="post">
+            <label for="date">Choisir une date :</label>
+            <input type="date" id="date" name="date" class="form-control" required><br>
+            
+            <label for="creneau">Choisir un créneau :</label>
+            <select id="creneau" name="creneau" class="form-control" required>
+                <option value="">Sélectionnez une date d'abord</option>
+            </select><br>
+            
+            <button type="submit" class="btn btn-success">Réserver</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#date').change(function() {
+                var selectedDate = $(this).val();
+                $.ajax({
+                    url: 'get_disponibilites.php',
+                    type: 'POST',
+                    data: { date: selectedDate },
+                    success: function(data) {
+                        $('#creneau').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
