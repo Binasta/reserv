@@ -24,7 +24,9 @@ $user = $stmt->fetch();
         <p>Email : <?= htmlspecialchars($user['email']) ?></p>
         <p><a href="mes_rendezvous.php" class="btn btn-primary">Mes Rendez-vous</a></p>
         <p><a href="prendre_rdv.php" class="btn btn-success">Prendre un rendez-vous</a></p>
-        <p><a href="supprimer_compte.php" class="btn btn-danger">Supprimer mon compte</a></p>
+        <form action="supprimer_compte.php" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.');">
+        <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
+        </form>
         <p><a href="logout.php" class="btn btn-secondary">Déconnexion</a></p>
     </div>
 </body>
