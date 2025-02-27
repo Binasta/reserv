@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {
 <body>
     <div class="container mt-5">
         <h2>Prendre un Rendez-vous</h2>
-        <form action="traitement_rdv.php" method="post">
+        <form id="rdv-form" action="traitement_rdv.php" method="post">
             <label for="date">Choisir une date :</label>
             <input type="date" id="date" name="date" class="form-control" required><br>
             
@@ -27,8 +27,9 @@ if (!isset($_SESSION['user_id'])) {
                 <option value="">Sélectionnez une date d'abord</option>
             </select><br>
             
-            <button type="submit" class="btn btn-success">Réserver</button>
+            <button type="submit" class="btn btn-success" id="submit-btn">Réserver</button>
         </form>
+        <p><a href="mon_compte.php" class="btn btn-secondary">Retour</a></p>
     </div>
 
     <script>
@@ -46,5 +47,19 @@ if (!isset($_SESSION['user_id'])) {
             });
         });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("rdv-form");
+        const submitButton = document.getElementById("submit-btn");
+
+        form.addEventListener("submit", function (event) {
+            submitButton.disabled = true; // Désactiver le bouton après le premier clic
+            setTimeout(() => {
+                submitButton.disabled = false; // Réactiver après 5 secondes en cas de problème
+            }, 5000);
+        });
+    });
+</script>
+
 </body>
 </html>

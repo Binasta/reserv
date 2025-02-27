@@ -14,10 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $utilisateur_id = $_SESSION['user_id'];
     $creneaux_id = (int) $_POST['creneaux']; // Forcer en entier
 
-    $stmt = $pdo->prepare("INSERT INTO rendezvous (utilisateur_id, creneau_id) VALUES (?, ?)");
-    $stmt->execute([$utilisateur_id, $creneaux_id]);
-
-    // Vérifier si le créneau existe et est disponible
+    // Vérification si le créneau existe et est disponible
     $stmt = $pdo->prepare("SELECT * FROM creneaux WHERE id = ? AND disponible = 1");
     $stmt->execute([$creneaux_id]);
     $creneaux = $stmt->fetch();
@@ -26,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Ce créneau n'est plus disponible.");
     }
 
-    // Insérer le rendez-vous
+    // Insérer le rendez-vous uniquement si le créneau est disponible
     $stmt = $pdo->prepare("INSERT INTO rendezvous (utilisateur_id, creneau_id) VALUES (?, ?)");
     $stmt->execute([$utilisateur_id, $creneaux_id]);
 
