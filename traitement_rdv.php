@@ -44,6 +44,28 @@ if (!$creneaux_dispo) {
     $stmt = $pdo->prepare("UPDATE creneaux SET disponible = 0, date_heure = ? WHERE id = ?");
     $stmt->execute([$date_heure, $creneaux_id]);
 
-    echo "Rendez-vous pris avec succès !";
+    echo "<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let notif = document.createElement('div');
+        notif.innerText = '✅ Rendez-vous pris avec succès !';
+        notif.style.position = 'fixed';
+        notif.style.top = '20px';
+        notif.style.left = '50%';
+        notif.style.transform = 'translateX(-50%)';
+        notif.style.backgroundColor = '#28a745';
+        notif.style.color = 'white';
+        notif.style.padding = '10px 20px';
+        notif.style.borderRadius = '5px';
+        notif.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        notif.style.zIndex = '1000';
+        document.body.appendChild(notif);
+        
+        setTimeout(() => {
+            notif.remove();
+            window.location.href = 'prendre_rdv.php'; // Redirection après 3 sec
+        }, 500);
+    });
+</script>";
+exit; // Empêche l'exécution du reste du script
 }
 ?>
