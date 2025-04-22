@@ -31,7 +31,7 @@ try {
 
     // Détruire la session et rediriger vers l'accueil
     session_destroy();
-    header("Location: login_register.php?message=compte_supprime");
+    header("Location: index.php?message=compte_supprime");
     exit;
 } catch (Exception $e) {
     $pdo->rollBack();
